@@ -1,61 +1,69 @@
-import { type FormEvent, useState } from "react"
+import clsx from "clsx"
+import { useAtom } from "jotai"
+import { useState } from "react"
+import { BiLoaderCircle } from "react-icons/bi"
+
+import { getMainData } from "~serices"
+import { dataAtom } from "~store"
 
 interface IProps {
-  onSetIsReady: (
-    isReady: boolean,
-    config: { appid: string; key: string }
-  ) => void
+  onSetIsReady: (isReady: boolean) => void
 }
 // 初始化保存翻译 API 的 KEY 和 APPID
 export default function Initial({ onSetIsReady }: IProps) {
-  const [appidError, setAppidError] = useState("")
-  const [keyError, setKeyError] = useState("")
-  const [appid, setAppid] = useState("")
-  const [key, setKey] = useState("")
+  const [token, setToken] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState("")
+  const [, setData] = useAtom(dataAtom)
 
-  const onSubmit = (e: FormEvent) => {
-    e.preventDefault()
-    if (appid.trim().length === 0) {
-      setAppidError("appid 不能为空")
-      return
+  const onSubmit = async () => {
+    try {
+      setIsLoading(true)
+      if (token.trim().length === 0) return
+      chrome.storage.sync.set({ token })
+      const data = await getMainData()
+      setData(data)
+      onSetIsReady(true)
+    } catch (error) {
+      setError("网络异常或token失效")
+      console.log("valid token error:", error)
+    } finally {
+      setIsLoading(false)
     }
-    if (key.trim().length === 0) {
-      setKeyError("key 不能为空")
-      return
-    }
-    chrome.storage.sync.set({ appid, key })
-    onSetIsReady(true, { appid, key })
   }
 
   return (
-    <form className="w-[400px] p-4" onSubmit={onSubmit}>
-      <div className="flex flex-col gap-2 mb-2">
-        <label htmlFor="appid">百度翻译 APPID:</label>
-        <input
-          className="border border-purple-300 rounded-sm p-1"
-          type="text"
-          id="appid"
-          value={appid}
-          onChange={(e) => setAppid(e.target.value.trim())}
-        />
-        <span className="text-red-400 font-sm">{appidError}</span>
+    <div className="">
+      <div className="flex justify-between mb-4 bg-gray-100 items-center p-4">
+        <h5 className="text-lg font-bold text-center">V2EX 访问令牌</h5>
+        <a
+          href="https://www.v2ex.com/help/personal-access-token"
+          target="_blank"
+          className="underline-purple-300 underline">
+          如何获取？
+        </a>
       </div>
-      <div className="flex flex-col gap-2 mb-2">
-        <label htmlFor="key">百度翻译 KEY:</label>
+      <div className="flex my-4 items-center w-[400px] gap-2 p-4">
         <input
-          className="border border-purple-300 rounded-sm p-1"
           type="text"
-          id="key"
-          value={key}
-          onChange={(e) => setKey(e.target.value.trim())}
+          placeholder="v2ex access token"
+          className="flex-grow outline-none border border-transparent border-b-purple-200 p-1.5"
+          autoFocus
+          value={token}
+          onChange={(e) => setToken(e.target.value.trim())}
         />
-        <span className="text-red-400 font-sm">{keyError}</span>
+        <button
+          disabled={token.trim().length === 0}
+          onClick={onSubmit}
+          className={clsx(
+            "px-3 py-1.5 rounded-sm  text-white flex items-center gap-1",
+            `${token.trim().length === 0 ? "bg-purple-500" : "bg-purple-500"}`
+          )}>
+          {isLoading && <BiLoaderCircle className="animate-spin" />}
+          验证
+        </button>
       </div>
-      <button
-        type="submit"
-        className="px-3 py-1.5 rounded-sm bg-purple-500 text-white mt-4">
-        初始化
-      </button>
-    </form>
+      <span className="text-red-600 text-[12px] p-4 h-4">{error}</span>
+    </div>
   )
 }

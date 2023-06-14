@@ -1,6 +1,6 @@
 {
   "name": "v2ex-jobs",
-  "displayName": "Demo",
+  "displayName": "v2ex-jobs",
   "version": "0.0.1",
   "description": "一个v2ex插件，随时随地获取v2ex上的招聘信息",
   "author": "aaron",
@@ -11,10 +11,13 @@
   },
   "dependencies": {
     "@plasmohq/messaging": "^0.3.3",
+    "clsx": "^1.2.1",
     "crypto-js": "^4.1.1",
+    "jotai": "^2.2.0",
     "plasmo": "0.74.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-icons": "^4.9.0"
   },
   "devDependencies": {
     "@plasmohq/prettier-plugin-sort-imports": "3.6.4",
@@ -30,10 +33,9 @@
   },
   "manifest": {
     "host_permissions": [
-      "https://fanyi-api.baidu.com/"
+      "https://www.v2ex.com/*"
     ],
     "permissions": [
-      "clipboard",
       "storage"
     ]
   }
