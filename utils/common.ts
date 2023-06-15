@@ -28,3 +28,9 @@ export const getRandomColor = (index: number) => {
   ]
   return `bg-${colors[index % colors.length]}-500`
 }
+
+export function convertCoverToSpan(str: string): string {
+  return str
+    .replace(/\[([^\]]+)\]/g, '<span class="text-[#dc4758]">【$1】</span>')
+    .replace(/【([^\]]+)9】/g, '<span class="text-[#dc4758]">【$1】</span>')
+}

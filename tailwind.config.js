@@ -13,6 +13,8 @@ module.exports = {
     "bg-blue-500",
     "bg-indigo-500",
     "bg-red-500",
-    "bg-pink-500"
+    "bg-pink-500",
+    "text-orange-500",
+    "text-[#dc4758]"
   ]
 }

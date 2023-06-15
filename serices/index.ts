@@ -1,15 +1,14 @@
 import type { IInfo, IRawResponse, ITokenResponse } from "~types"
-import { isValidTokenExpiration, saveTokenToStorage } from "~utils/token"
-
-import { request } from "~utils/request"
 import { saveDataToCache } from "~utils/cache"
+import { request } from "~utils/request"
+import { isValidTokenExpiration, saveTokenToStorage } from "~utils/token"
 
 const BASE_URL = "https://www.v2ex.com/api/v2/nodes/jobs/topics"
 const TOKEN_URL = "https://www.v2ex.com/api/v2/token"
 
 export const getMainData = async (): Promise<IInfo[]> => {
   const res = await Promise.allSettled(
-    [1].map((page) => request<IRawResponse>(`${BASE_URL}?p=${page}`))
+    [1, 2, 3].map((page) => request<IRawResponse>(`${BASE_URL}?p=${page}`))
   )
   const result = res
     .filter((item) => item.status === "fulfilled")

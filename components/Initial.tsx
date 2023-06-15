@@ -1,10 +1,12 @@
-import { BiLoaderCircle } from "react-icons/bi"
 import clsx from "clsx"
-import { dataAtom } from "~store"
-import { getMainData } from "~serices"
-import { saveTokenToStorage } from "~utils/token"
 import { useAtom } from "jotai"
 import { useState } from "react"
+import { BiLoaderCircle } from "react-icons/bi"
+
+import { getMainData } from "~serices"
+import { dataAtom } from "~store"
+import { saveTokenToStorage } from "~utils/token"
+
 import { validTokenFromServer } from "../serices/index"
 
 interface IProps {
@@ -19,6 +21,7 @@ export default function Initial({ onSetIsReady }: IProps) {
 
   const onSubmit = async () => {
     try {
+      if (isLoading) return
       setIsLoading(true)
       if (token.trim().length === 0) return
       chrome.storage.sync.set({ token })
@@ -58,7 +61,7 @@ export default function Initial({ onSetIsReady }: IProps) {
           onChange={(e) => setToken(e.target.value.trim())}
         />
         <button
-          disabled={token.trim().length === 0}
+          disabled={token.trim().length === 0 || isLoading}
           onClick={onSubmit}
           className={clsx(
             "px-3 py-1.5 rounded-sm  text-white flex items-center gap-1",

@@ -128,7 +128,8 @@
 }
 
 .data-detail {
-  @apply p-4 bg-gray-50 origin-top;
+  @apply p-8 bg-gray-50 origin-top fixed bottom-4 left-0 right-0 top-[80px] overflow-y-auto overflow-x-hidden z-10;
+  height: calc(100% - 80px);
   animation: scaleIn 0.35s ease-in-out;
 }
 
