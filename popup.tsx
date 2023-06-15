@@ -1,13 +1,17 @@
 import "./style.css"
 
-import { useAtom } from "jotai"
 import { useEffect, useState } from "react"
 
 import Initial from "~components/Initial"
 import Loading from "~components/Loading"
-import { checkToken, getMainData } from "~serices"
+import Main from "~components/Main"
+import Menu from "~components/Menu"
 import { dataAtom } from "~store"
-import { makeTaskSlow, waitAMoment } from "~utils/common"
+import { getCacheData } from "~utils/cache"
+import { getMainData } from "~serices"
+import { isValidTokenExpiration } from "~utils/token"
+import { makeTaskSlow } from "~utils/common"
+import { useAtom } from "jotai"
 
 function IndexPopup() {
   const [isLoading, setIsLoading] = useState(true)
@@ -15,16 +19,19 @@ function IndexPopup() {
   const [, setData] = useAtom(dataAtom)
 
   useEffect(() => {
-    ;(async () => {
-      const isValid = await checkToken()
-      if (isValid) {
-        // 读取最新数据
-        const data = await makeTaskSlow(getMainData())
+    const initFunction = async () => {
+      const hadValidToken = await isValidTokenExpiration()
+      if (hadValidToken) {
+        const data =
+          (await getCacheData()) ?? (await makeTaskSlow(getMainData()))
         setData(data)
+        setIsReady(true)
+      } else {
+        setIsReady(false)
       }
-      setIsReady(isValid)
       setIsLoading(false)
-    })()
+    }
+    initFunction()
   }, [])
 
   if (isLoading) return <Loading />
@@ -33,7 +40,12 @@ function IndexPopup() {
     return <Initial onSetIsReady={() => setIsReady(true)} />
   }
 
-  return <div className="w-[400px]  p-4">popup</div>
+  return (
+    <div className="main">
+      <Menu />
+      <Main />
+    </div>
+  )
 }
 
 export default IndexPopup

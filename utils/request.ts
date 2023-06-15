@@ -1,4 +1,4 @@
-import { getToken } from "./token"
+import { getTokenFromStorage } from "./token"
 
 export const request = async <T>(
   url: string,
@@ -8,7 +8,7 @@ export const request = async <T>(
   }
 ): Promise<T> => {
   const options = { ..._options } as RequestInit
-  const token = await getToken()
+  const token = await getTokenFromStorage()
   options.headers = {
     ...options.headers,
     "Content-Type": "application/json",

@@ -1,10 +1,11 @@
+import { BiLoaderCircle } from "react-icons/bi"
 import clsx from "clsx"
+import { dataAtom } from "~store"
+import { getMainData } from "~serices"
+import { saveTokenToStorage } from "~utils/token"
 import { useAtom } from "jotai"
 import { useState } from "react"
-import { BiLoaderCircle } from "react-icons/bi"
-
-import { getMainData } from "~serices"
-import { dataAtom } from "~store"
+import { validTokenFromServer } from "../serices/index"
 
 interface IProps {
   onSetIsReady: (isReady: boolean) => void
@@ -21,7 +22,11 @@ export default function Initial({ onSetIsReady }: IProps) {
       setIsLoading(true)
       if (token.trim().length === 0) return
       chrome.storage.sync.set({ token })
+      // saveTokenToStorage(token)
+      const isValidToken = await validTokenFromServer()
+      if (!isValidToken) throw new Error("token is invalid")
       const data = await getMainData()
+      // const token = await
       setData(data)
       onSetIsReady(true)
     } catch (error) {

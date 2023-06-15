@@ -1,17 +1,15 @@
-import type { IInfo, IRawResponse } from "~types"
-import { getCacheData, saveDataToCache } from "~utils/cache"
+import type { IInfo, IRawResponse, ITokenResponse } from "~types"
+import { isValidTokenExpiration, saveTokenToStorage } from "~utils/token"
+
 import { request } from "~utils/request"
+import { saveDataToCache } from "~utils/cache"
 
 const BASE_URL = "https://www.v2ex.com/api/v2/nodes/jobs/topics"
 const TOKEN_URL = "https://www.v2ex.com/api/v2/token"
 
 export const getMainData = async (): Promise<IInfo[]> => {
-  const cacheData = await getCacheData()
-  if (cacheData) {
-    return cacheData
-  }
   const res = await Promise.allSettled(
-    [1, 2, 3].map((page) => request<IRawResponse>(`${BASE_URL}?p=${page}`))
+    [1].map((page) => request<IRawResponse>(`${BASE_URL}?p=${page}`))
   )
   const result = res
     .filter((item) => item.status === "fulfilled")
@@ -20,14 +18,22 @@ export const getMainData = async (): Promise<IInfo[]> => {
       return item.value?.result
     })
     .flat()
+  // save cache and cache time
   saveDataToCache(result)
   return result
 }
 
-export const checkToken = async () => {
+export const validTokenFromServer = async () => {
   try {
-    const { success } = await request<{ success: boolean }>(TOKEN_URL)
-    return success === true
+    // valid cache token
+    const isValid = await isValidTokenExpiration()
+    if (isValid) {
+      return true
+    }
+    const rawTokenResponse = await request<ITokenResponse>(TOKEN_URL)
+    // save token to storage
+    await saveTokenToStorage(rawTokenResponse.result)
+    return rawTokenResponse.success === true
   } catch (error) {
     console.log("fetch token fail:", error)
     return false

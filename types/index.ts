@@ -17,3 +17,19 @@ export interface IRawResponse {
   message: string
   result: IInfo[]
 }
+
+export interface ITokenResult {
+  token: string
+  scope: string
+  expiration: number
+  good_for_days: number
+  total_used: number
+  last_used: number
+  created: number
+}
+
+export interface ITokenResponse {
+  success: boolean
+  message: string
+  result: ITokenResult
+}

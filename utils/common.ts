@@ -10,5 +10,21 @@ export const makeTaskSlow = async <T>(
   promise: Promise<T>,
   time: number = 1000
 ) => {
-  return Promise.all([promise, waitAMoment(time)])[0] as T
+  return Promise.all([promise, waitAMoment(time)]).then((res) => res[0] as T)
+}
+
+// get random tailwindcss color
+export const getRandomColor = (index: number) => {
+  const colors = [
+    "purple",
+    "orange",
+    "yellow",
+    "green",
+    "teal",
+    "blue",
+    "indigo",
+    "red",
+    "pink"
+  ]
+  return `bg-${colors[index % colors.length]}-500`
 }

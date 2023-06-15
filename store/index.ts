@@ -1,5 +1,5 @@
+import type { IInfo } from "~types"
 import { atom } from "jotai"
 
-import type { IInfo } from "~types"
-
 export const dataAtom = atom([] as IInfo[])
+export const tagAtom = atom([])
