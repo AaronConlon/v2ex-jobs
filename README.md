@@ -1,16 +1,27 @@
 # v2ex-jobs
 
-这是一个 [Plasmo 扩展插件](https://docs.plasmo.com/) 项目,使用 [`plasmo init`](https://www.npmjs.com/package/plasmo) 脚手架生成。
+这是一个 [Plasmo 扩展插件](https://docs.plasmo.com/) 项目,使用基于 [`plasm`](https://www.npmjs.com/package/plasmo) 脚手架`create-juice-app`生成。
 
-一个v2ex插件，随时随地获取v2ex上的招聘信息
+一个v2ex插件，随时随地获取v2ex上的招聘信息。
+
+只需要输入`v2ex`的用户令牌即可使用本插件，本插件的快捷键如下：
+
+- 默认：`Ctrl + shift + u`
+- MacOS：`Command + shift + u`
+
+
+
+## 预览
+
+![image-20230616121302174](./preview.png)
+
+
 
 ## 开始
 
 首先,运行开发服务器:
 
 ```
-copy codepnpm dev
-# 或
 npm run dev
 ```
 
@@ -20,20 +31,18 @@ npm run dev
 
 如需详细指南,[参考我们的文档](https://docs.plasmo.com/)。
 
+
+
+
+
 ## 打包发布版本
 
 运行:
 
 ```
-copy codepnpm build 
-# 或 
 npm run build
 ```
 
 这会生成你的扩展的生产版本,准备好打包和发布到商店。
 
 
-
-## 提交到商店
-
-使用内置的 [bpp](https://bpp.browser.market/) Github 动作部署 Plasmo 扩展非常方便。在使用此操作之前,请首先构建你的扩展并上传第一版到商店以建立基本凭据。然后,只需遵循[此设置说明](https://docs.plasmo.com/framework/workflows/submit),你就可以启动自动提交!

@@ -21,7 +21,7 @@ export default function Main() {
       return [...value, id]
     })
   return (
-    <div className="main-container flex flex-col gap-1 pb-12 mb-12">
+    <div className="main-container flex flex-col gap-1 pb-12">
       {data
         .filter(
           ({ content, title }) =>
@@ -61,9 +61,9 @@ export default function Main() {
                       __html: convertCoverToSpan(title)
                     }}></span>
                 </a>
-                <span>{`${new Date(
+                <span className="text-[#3e3e3ea0] text-[12px]">{`${new Date(
                   created * 1000
-                ).toLocaleDateString()}`}</span>
+                ).toLocaleDateString("zh-CN")}`}</span>
                 {/* <a
                   href={url}
                   target="_blank"

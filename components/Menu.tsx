@@ -1,3 +1,4 @@
+import { AiFillGithub } from "react-icons/ai"
 import { CiLogout } from "react-icons/ci"
 
 export default function Menu({ onResetStatus }: { onResetStatus: () => void }) {
@@ -7,13 +8,21 @@ export default function Menu({ onResetStatus }: { onResetStatus: () => void }) {
     onResetStatus()
   }
   return (
-    <div
-      className="fixed bottom-2 right-4 rounded-sm bg-black text-white flex gap-2 items-center p-1 px-2 opacity-10 hover:opacity-100 transition-all select-none cursor-pointer"
-      onClick={onClick}>
-      <span>
-        <CiLogout />
-      </span>
-      <span>注销</span>
+    <div className="bg-white flex p-2 border-t border-t-gray-50 justify-end group items-center">
+      <a
+        href="https://github.com/Developer27149/v2ex-jobs"
+        target="_blank"
+        className="mr-auto ml-2 text-xl relative transition-all -left-32 group-hover:left-0">
+        <AiFillGithub />
+      </a>
+      <div
+        className="rounded-sm bg-black text-white flex gap-2 items-center p-1 px-2 select-none cursor-pointer"
+        onClick={onClick}>
+        <span>
+          <CiLogout />
+        </span>
+        <span>注销</span>
+      </div>
     </div>
   )
 }
