@@ -1,12 +1,12 @@
-import clsx from "clsx"
-import { useAtom } from "jotai"
-import { useState } from "react"
+import { dataAtom, tagAtom } from "~store"
+
 import { BsArrowBarRight } from "react-icons/bs"
 import { IoIosClose } from "react-icons/io"
-import { RxExternalLink } from "react-icons/rx"
-
-import { dataAtom, tagAtom } from "~store"
+// import { RxExternalLink } from "react-icons/rx"
+import clsx from "clsx"
 import { convertCoverToSpan } from "~utils/common"
+import { useAtom } from "jotai"
+import { useState } from "react"
 
 export default function Main() {
   const [data] = useAtom(dataAtom)
@@ -21,18 +21,17 @@ export default function Main() {
       return [...value, id]
     })
   return (
-    <div className="main-container flex flex-col gap-1 pb-12">
+    <div className="main-container flex flex-col gap-1 pb-12 mb-12">
       {data
         .filter(
           ({ content, title }) =>
             tags.length == 0 ||
             tags.some((tag) => RegExp(tag, "i").test(`${content}${title}`))
         )
-        .map(({ id, title, content_rendered, url, content }) => {
+        .map(({ id, title, content_rendered, url, content, created }) => {
           return (
-            <div>
+            <div key={id}>
               <div
-                key={id}
                 className={clsx(
                   "p-4 hover:bg-gray-50 flex items-center truncate group",
                   {
@@ -56,23 +55,35 @@ export default function Main() {
                 <a
                   href={url}
                   target="blank"
-                  className="max-w-[90%] mr-auto ml-4 select-none">
+                  className="max-w-[70%] mr-auto ml-4 select-none">
                   <span
                     dangerouslySetInnerHTML={{
                       __html: convertCoverToSpan(title)
                     }}></span>
                 </a>
-
-                <a
+                <span>{`${new Date(
+                  created * 1000
+                ).toLocaleDateString()}`}</span>
+                {/* <a
                   href={url}
                   target="_blank"
                   className="opacity-0 group-hover:opacity-100 transition-all">
                   <RxExternalLink />
-                </a>
+                </a> */}
               </div>
               {showDetailId.includes(id) && (
                 <div className="data-detail">
+                  <a
+                    href={url}
+                    target="blank"
+                    className="max-w-[90%] select-none underline underline-offset-4 leading-4">
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: convertCoverToSpan(title)
+                      }}></span>
+                  </a>
                   <div
+                    className="px-8 leading-8"
                     dangerouslySetInnerHTML={{
                       __html: content_rendered.replaceAll(
                         'src="//',

@@ -1,12 +1,9 @@
+import { BiLoaderCircle } from "react-icons/bi"
 import clsx from "clsx"
+import { dataAtom } from "~store"
+import { getMainData } from "~serices"
 import { useAtom } from "jotai"
 import { useState } from "react"
-import { BiLoaderCircle } from "react-icons/bi"
-
-import { getMainData } from "~serices"
-import { dataAtom } from "~store"
-import { saveTokenToStorage } from "~utils/token"
-
 import { validTokenFromServer } from "../serices/index"
 
 interface IProps {
