@@ -1,12 +1,12 @@
-import { dataAtom, tagAtom } from "~store"
-
-import { BsArrowBarRight } from "react-icons/bs"
-import { IoIosClose } from "react-icons/io"
 // import { RxExternalLink } from "react-icons/rx"
 import clsx from "clsx"
-import { convertCoverToSpan } from "~utils/common"
 import { useAtom } from "jotai"
 import { useState } from "react"
+import { BsArrowBarRight } from "react-icons/bs"
+import { IoIosClose } from "react-icons/io"
+
+import { dataAtom, tagAtom } from "~store"
+import { convertCoverToSpan } from "~utils/common"
 
 export default function Main() {
   const [data] = useAtom(dataAtom)
@@ -55,7 +55,7 @@ export default function Main() {
                 <a
                   href={url}
                   target="blank"
-                  className="max-w-[70%] mr-auto ml-4 select-none">
+                  className="max-w-[80%] mr-auto ml-4 select-none whitespace-pre-wrap">
                   <span
                     dangerouslySetInnerHTML={{
                       __html: convertCoverToSpan(title)
@@ -76,7 +76,7 @@ export default function Main() {
                   <a
                     href={url}
                     target="blank"
-                    className="max-w-[90%] select-none underline underline-offset-4 leading-4">
+                    className="max-w-[90%] select-none underline underline-offset-4 leading-6 text-[18px]">
                     <span
                       dangerouslySetInnerHTML={{
                         __html: convertCoverToSpan(title)

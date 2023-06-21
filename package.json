@@ -1,7 +1,7 @@
 {
   "name": "v2ex-jobs",
   "displayName": "v2ex-jobs",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "一个v2ex插件，随时随地获取v2ex上的招聘信息",
   "author": "aaron",
   "scripts": {
